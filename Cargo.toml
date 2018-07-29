@@ -1,0 +1,8 @@
+[package]
+name = "pwrust"
+version = "0.1.0"
+authors = ["Ben Cromwell"]
+
+[dependencies]
+clap = "~2.32.0"
+rand = "~0.5.4"
