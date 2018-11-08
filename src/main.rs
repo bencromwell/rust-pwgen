@@ -33,6 +33,16 @@ fn main() {
                 .help("Output the bcrypt hash for the password generated")
                 .conflicts_with("number")
         )
+        .arg(
+            Arg::with_name("character sets")
+                .short("c")
+                .long("chars")
+                .multiple(true)
+                .takes_value(true)
+                .use_delimiter(false)
+                .possible_values(&["u", "d", "s"])
+                .help("Always includes lowercase letters. U for uppercase letters, d for digits, s for symbols")
+        )
         .get_matches();
 
     let length = matches.value_of("length").unwrap().parse::<i32>().unwrap();
@@ -46,27 +56,39 @@ fn main() {
 
     let mut num_pws_generated: i32 = 0;
 
+    let mut charsets: Vec<_> = vec![];
+
+    if matches.is_present("character sets") {
+        charsets = matches.values_of("character sets").unwrap().collect();
+    }
+
     while num_pws_generated < number {
         let mut pw = String::new();
 
         while (pw.len() as i32) < length {
-            let source;
+            let mut source = letters_lower.clone();
             // play with the range and the options matched to adjust the relative weightings of the
             // different character types
             let x = thread_rng().gen_range(1, 15);
 
             match x {
                 1 | 2 | 3 | 4 => {
-                    source = letters.clone();
+                    if charsets.contains(&"u") {
+                        source = letters.clone();
+                    }
                 }
                 5 | 6 => {
-                    source = symbols.clone();
+                    if charsets.contains(&"s") {
+                        source = symbols.clone();
+                    }
                 }
                 7 | 8 | 9 | 10 => {
-                    source = digits.clone();
+                    if charsets.contains(&"d") {
+                        source = digits.clone();
+                    }
                 }
                 _ => {
-                    source = letters_lower.clone();
+                    // do nothing, covered by the default above
                 }
             }
 
