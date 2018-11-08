@@ -1,8 +1,10 @@
+extern crate bcrypt;
 extern crate clap;
 extern crate rand;
 
 use clap::{App, Arg};
 use rand::{thread_rng, Rng};
+use bcrypt::{hash, DEFAULT_COST};
 
 fn main() {
     let matches = App::new("pwrust")
@@ -22,6 +24,14 @@ fn main() {
                 .long("number")
                 .default_value("1")
                 .help("The number of passwords to generate")
+        )
+        .arg(
+            Arg::with_name("bcrypt")
+                .short("b")
+                .long("bcrypt")
+                .takes_value(false)
+                .help("Output the bcrypt hash for the password generated")
+                .conflicts_with("number")
         )
         .get_matches();
 
@@ -66,6 +76,11 @@ fn main() {
 
         num_pws_generated += 1;
 
-        println!("{}", pw);
+        if matches.is_present("bcrypt") {
+            let hashed_pw = hash(pw.as_str(), DEFAULT_COST).unwrap();
+            println!("pass: {}\nhash: {}", pw, hashed_pw);
+        } else {
+            println!("{}", pw);
+        }
     }
 }
