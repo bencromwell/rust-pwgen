@@ -2,6 +2,7 @@
 name = "pwrust"
 version = "0.3.0"
 authors = ["Ben Cromwell"]
+edition = "2018"
 
 [dependencies]
 clap = "~2.32.0"
