@@ -1,6 +1,6 @@
 [package]
 name = "pwrust"
-version = "0.3.0"
+version = "0.4.0"
 authors = ["Ben Cromwell"]
 edition = "2018"
 

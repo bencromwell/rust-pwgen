@@ -11,6 +11,9 @@ fn main() {
 
     let alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     let symbols: Vec<_> = "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~".chars().collect();
+    // some symbols break the selection when you double click in the terminal to copy them
+    // additionally some symbols can break some bad implementations in certain websites
+    let safer_symbols: Vec<_> = "#%&+-=?@_~".chars().collect();
     let letters: Vec<_> = alphabet.chars().collect();
     let letters_lower: Vec<_> = alphabet.to_lowercase().chars().collect();
     let digits: Vec<_> = "0123456789".chars().collect();
@@ -21,31 +24,37 @@ fn main() {
 
     if matches.is_present("character sets") {
         charsets = matches.values_of("character sets").unwrap().collect();
+    } else if matches.is_present("all") {
+        charsets = vec!["u", "s", "d"]
     }
 
     while num_pws_generated < number {
         let mut pw = String::new();
 
         while (pw.len() as i32) < length {
-            let mut source = letters_lower.clone();
+            let mut source = &letters_lower;
             // play with the range and the options matched to adjust the relative weightings of the
             // different character types
             let x = thread_rng().gen_range(1, 15);
 
             match x {
-                1 | 2 | 3 | 4 => {
+                1 ... 5 => {
                     if charsets.contains(&"u") {
-                        source = letters.clone();
+                        source = &letters;
                     }
                 }
-                5 | 6 => {
+                6 ... 7 => {
                     if charsets.contains(&"s") {
-                        source = symbols.clone();
+                        if matches.is_present("safe") {
+                            source = &safer_symbols;
+                        } else {
+                            source = &symbols;
+                        }
                     }
                 }
-                7 | 8 | 9 | 10 => {
+                8 ... 12 => {
                     if charsets.contains(&"d") {
-                        source = digits.clone();
+                        source = &digits;
                     }
                 }
                 _ => {
@@ -53,7 +62,7 @@ fn main() {
                 }
             }
 
-            let chosen_char: char = thread_rng().choose(&source).cloned().unwrap();
+            let chosen_char: char = thread_rng().choose(source).cloned().unwrap();
             pw.push(chosen_char);
         }
 

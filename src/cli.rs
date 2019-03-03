@@ -36,5 +36,21 @@ pub fn build_cli() -> App<'static, 'static> {
                 .use_delimiter(false)
                 .possible_values(&["u", "d", "s"])
                 .help("Always includes lowercase letters. U for uppercase letters, d for digits, s for symbols")
+                .conflicts_with("all")
+        )
+        .arg(
+            Arg::with_name("all")
+                .short("a")
+                .long("all")
+                .takes_value(false)
+                .help("Include all character sets")
+                .conflicts_with("character sets")
+        )
+        .arg(
+            Arg::with_name("safe")
+                .short("s")
+                .long("safe")
+                .takes_value(false)
+                .help("Use the 'safer' symbol set")
         )
 }
