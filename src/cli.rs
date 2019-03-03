@@ -37,7 +37,7 @@ pub fn build_cli() -> App<'static, 'static> {
                 .takes_value(true)
                 .use_delimiter(false)
                 .possible_values(&["u", "d", "s"])
-                .help("Always includes lowercase letters. U for uppercase letters, d for digits, s for symbols")
+                .help("Always includes lowercase letters. Set u for uppercase letters, d for digits, s for symbols")
                 .conflicts_with("all")
         )
         .arg(
