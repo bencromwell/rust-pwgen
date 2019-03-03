@@ -1,1 +1,10 @@
 language: rust
+deploy:
+  provider: releases
+  api_key:
+    secure: eHPq+UN22TFAmsTVo4Hi4PXfgzTiAhhz9e+tZ/Va7Ifxqfc4sjiw1oL29n0FmwQE+MUQIuRRPjgyfjBkbKAJ1drMMsLbbmtv00biAyDqNbcdTypB5EFA4wbShAcHn7yR1SyoEtvi/Dmz/sBgmBSzKZOti1tYf1Kt/ilY9jc5OyOgNHQyyTJ8jsCvaHEJlXOENaOC1WZG+Ma/xVle7XDu1zDNo90caDfKo+xTNcoqIzCZWe1i7hTdcjlocuzTK/8CPgcZ/Bi5j2Ppnnqme/cm7lqWx3H6/6HZrLXSS8MzQrk7RrgiS0bcCM8KrjT6f/N03c+o00f+FTY+BWDd03NaSCeXvkmQc59YR9zSRRKqKrf6KTH7xYXmGG8QSv7nrHyr4PBl3jgR4tow4+5dozY1Okyub+yxUzIhByvxxNk8f95lqBAxQkvSorHqXnHXTF38nr15leDgzhLeT1od64tYIxXDVF2oewf3XBa6UYICcLxocLOrKzNbaNCGqcBw1dAyfymcG+jxynRtWFS7ipwFEHiWvcFL/qtaebZtu8u0C6OdwWzg0MhPPq59Bk7R8en+CskKJvzEB1smpksA8LoLN9S5AIxfq0Smf2bX5s+y9Cxi9QoAb0+eXlSa5+P5lO0zn+dMGnb5We7VWzOnlCRsCyvVL1wsRTMZ5HDPMZHelr4=
+  file: target/release/pwrust
+  skip_cleanup: true
+  on:
+    repo: bencromwell/rust-pwgen
+    tags: true
