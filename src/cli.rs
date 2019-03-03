@@ -1,8 +1,10 @@
 use clap::{App, Arg};
 
+const VERSION: &'static str = env!("CARGO_PKG_VERSION");
+
 pub fn build_cli() -> App<'static, 'static> {
     App::new("pwrust")
-        .version("1.0.0")
+        .version(VERSION)
         .about("Generates passwords")
         .arg(
             Arg::with_name("length")
